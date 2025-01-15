@@ -16,6 +16,7 @@
   --card-shadow: 0 15px 40px rgba(0,0,0,0.1);
 }
 
+/* Base styles */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -23,8 +24,8 @@ body {
   background: linear-gradient(135deg, var(--background), var(--secondary));
   color: var(--text);
   line-height: 1.6;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
@@ -33,10 +34,10 @@ body {
 
 .App {
   text-align: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   margin: 0;
-  padding: 1rem;
+  padding: clamp(0.75rem, 2vw, 1rem);
   animation: fadeIn 0.6s ease-in;
   flex: 1;
   display: flex;
@@ -44,13 +45,30 @@ body {
   box-sizing: border-box;
 }
 
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes popIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+@keyframes dropPiece {
+  from { transform: translateY(-300px); }
+  to { transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header styles */
 .App-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
   position: relative;
 }
 
@@ -73,12 +91,13 @@ h1::after {
   bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100px;
+  width: clamp(60px, 10vw, 100px);
   height: 3px;
   background: linear-gradient(135deg, var(--primary), #60a5fa);
   border-radius: 2px;
 }
 
+/* Main layout */
 main {
   flex: 1;
   display: flex;
@@ -86,24 +105,24 @@ main {
   align-items: flex-start;
   perspective: 1000px;
   min-height: 0;
-  padding: 1rem;
+  padding: clamp(0.5rem, 2vw, 1rem);
   overflow-y: auto;
 }
 
+/* Game menu */
 .game-menu {
   list-style: none;
-  padding: 0;
+  padding: clamp(1rem, 3vw, 2rem);
   margin: 0;
-  width: min(85vw, 800px);
+  width: min(90vw, 800px);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2rem 1rem;
+  gap: clamp(1rem, 3vw, 2rem);
 }
 
 .game-menu li {
   background: rgba(255, 255, 255, 0.95);
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
   border-radius: 20px;
   box-shadow: var(--card-shadow);
   animation: fadeIn 0.6s ease-in;
@@ -116,17 +135,18 @@ main {
   transform: translateY(-10px);
 }
 
+/* Buttons */
 .game-menu button {
   width: 100%;
   background: var(--surface);
   border: none;
   color: var(--text);
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem) clamp(1rem, 2vw, 2rem);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   font-weight: 700;
@@ -139,26 +159,10 @@ main {
 }
 
 .game-menu button:before {
-  font-size: clamp(3rem, 6vw, 5rem);
-  margin-bottom: 1rem;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-}
-
-.game-menu button[onclick*="tictactoe"]:before {
-  content: "⭕";
-}
-
-.game-menu button[onclick*="rockpaperscissors"]:before {
-  content: "✌️";
-}
-
-.game-menu button[onclick*="connectfour"]:before {
-  content: "🔵";
-}
-
-.game-menu button[onclick*="checkers"]:before {
-  content: "♟️";
 }
 
 .game-menu button:hover {
@@ -177,56 +181,16 @@ main {
   box-shadow: var(--button-shadow);
 }
 
-.game-menu button span {
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
-  font-weight: 800;
-}
+/* Game icons */
+.game-menu button[onclick*="tictactoe"]:before { content: "⭕"; }
+.game-menu button[onclick*="rockpaperscissors"]:before { content: "✌️"; }
+.game-menu button[onclick*="connectfour"]:before { content: "🔵"; }
+.game-menu button[onclick*="checkers"]:before { content: "♟️"; }
 
-.game-menu button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.game-menu button:hover::after {
-  opacity: 1;
-}
-
-@media (max-width: 768px) {
-  .App {
-    padding: 0.75rem;
-  }
-
-  .game-menu {
-    width: 90vw;
-    padding: 1rem;
-  }
-
-  .game-menu li {
-    padding: 1rem;
-  }
-
-  .game-menu button {
-    padding: 1.5rem 1rem;
-    font-size: clamp(1.25rem, 3.5vw, 1.75rem);
-  }
-
-  .game-menu button:before {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    margin-bottom: 0.75rem;
-  }
-}
-
-/* Game specific styles */
+/* Game boards */
 .board {
   display: inline-block;
-  margin: 0.75rem auto;
+  margin: clamp(0.5rem, 2vw, 0.75rem) auto;
   border: 2px solid var(--primary);
   border-radius: 10px;
   overflow: hidden;
@@ -257,10 +221,14 @@ main {
   overflow: hidden;
 }
 
+/* Game specific styles */
 /* Tic Tac Toe */
 .tic-tac-toe .cell {
   background-color: var(--surface);
   border: 1px solid var(--secondary-dark);
+  width: clamp(40px, 12vw, 80px);
+  height: clamp(40px, 12vw, 80px);
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
 }
 
 .tic-tac-toe .cell.X {
@@ -273,17 +241,11 @@ main {
   animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-@keyframes popIn {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
-}
-
 /* Connect Four */
 .connect-four .cell {
   border: 2px solid var(--secondary-dark);
   border-radius: 50%;
   margin: 3px;
-  transition: all 0.3s ease;
 }
 
 .connect-four .cell.red {
@@ -296,15 +258,9 @@ main {
   animation: dropPiece 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes dropPiece {
-  from { transform: translateY(-300px); }
-  to { transform: translateY(0); }
-}
-
 /* Checkers */
 .checkers .cell {
   background-color: var(--surface);
-  transition: all 0.3s ease;
 }
 
 .checkers .cell:nth-child(odd) {
@@ -339,14 +295,14 @@ main {
 .rock-paper-scissors .choices {
   display: flex;
   justify-content: center;
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
   flex-wrap: wrap;
 }
 
 .rock-paper-scissors .choice {
   font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-  padding: 0.75rem 1.5rem;
+  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(1rem, 2vw, 1.5rem);
   transition: all 0.3s ease;
 }
 
@@ -356,7 +312,7 @@ main {
 }
 
 .rock-paper-scissors .result {
-  margin-top: 1.5rem;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
   font-size: clamp(1.1rem, 2.5vw, 1.35rem);
   opacity: 0;
   animation: fadeInUp 0.5s ease forwards;
@@ -365,13 +321,8 @@ main {
 .rock-paper-scissors .result-text {
   font-weight: 600;
   font-size: clamp(1.5rem, 4vw, 2rem);
-  margin-top: 0.75rem;
+  margin-top: clamp(0.5rem, 1vw, 0.75rem);
   background: linear-gradient(135deg, var(--primary), #60a5fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }

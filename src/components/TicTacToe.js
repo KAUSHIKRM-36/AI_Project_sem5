@@ -107,25 +107,22 @@ const TicTacToe = () => {
     }
   }, [board, isPlayerTurn]);
 
-  const squareSize = 'min(120px, 25vw)'; // Responsive square size
-
   const renderSquare = (index) =>
     React.createElement('button', {
-      className: `square ${board[index]}`,
+      className: `cell ${board[index]}`,
       onClick: () => handleClick(index),
       key: index,
       style: {
-        width: squareSize,
-        height: squareSize,
-        margin: 'min(8px, 2vw)',
-        fontSize: 'min(4rem, 10vw)',
+        fontSize: 'clamp(2rem, 8vw, 4rem)',
         fontWeight: 'bold',
-        borderRadius: 'min(12px, 3vw)',
+        borderRadius: 'clamp(8px, 2vw, 12px)',
         border: '3px solid var(--primary)',
         backgroundColor: board[index] ? 'var(--surface)' : '#f1f5f9',
         color: board[index] === 'X' ? 'var(--error)' : 'var(--primary)',
         cursor: 'pointer',
         transition: 'all 0.2s ease',
+        width: '100%',
+        height: '100%',
         ':hover': {
           transform: 'translateY(-2px)',
           boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
@@ -144,7 +141,7 @@ const TicTacToe = () => {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '60vh',
-        padding: 'min(1rem, 4vw)',
+        padding: 'clamp(1rem, 4vw, 2rem)',
         position: 'relative',
         width: '100%'
       }
@@ -155,15 +152,15 @@ const TicTacToe = () => {
         onClick: () => setShowInstructions(!showInstructions),
         style: {
           position: 'absolute',
-          top: 'min(1rem, 4vw)',
-          right: 'min(1rem, 4vw)',
-          width: 'min(40px, 10vw)',
-          height: 'min(40px, 10vw)',
+          top: 'clamp(1rem, 4vw, 2rem)',
+          right: 'clamp(1rem, 4vw, 2rem)',
+          width: 'clamp(40px, 10vw, 50px)',
+          height: 'clamp(40px, 10vw, 50px)',
           borderRadius: '50%',
           backgroundColor: 'var(--primary)',
           color: 'white',
           border: 'none',
-          fontSize: 'min(1.5rem, 5vw)',
+          fontSize: 'clamp(1.2rem, 4vw, 1.5rem)',
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
@@ -179,15 +176,15 @@ const TicTacToe = () => {
       {
         style: {
           position: 'absolute',
-          top: 'min(4rem, 15vw)',
-          right: 'min(1rem, 4vw)',
+          top: 'clamp(4rem, 15vw, 6rem)',
+          right: 'clamp(1rem, 4vw, 2rem)',
           backgroundColor: 'white',
-          padding: 'min(1rem, 4vw)',
+          padding: 'clamp(1rem, 4vw, 1.5rem)',
           borderRadius: '8px',
           boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-          maxWidth: 'min(250px, 80vw)',
+          maxWidth: 'clamp(250px, 80vw, 300px)',
           zIndex: 1000,
-          fontSize: 'min(1rem, 4vw)'
+          fontSize: 'clamp(0.9rem, 3vw, 1rem)'
         }
       },
       React.createElement('h3', { style: { marginBottom: '0.5rem' } }, 'How to Play:'),
@@ -203,8 +200,8 @@ const TicTacToe = () => {
     ),
     React.createElement('h2', {
       style: {
-        fontSize: 'min(3rem, 10vw)',
-        marginBottom: 'min(1.5rem, 5vw)',
+        fontSize: 'clamp(2rem, 8vw, 3rem)',
+        marginBottom: 'clamp(1rem, 4vw, 1.5rem)',
         color: 'var(--primary)',
         textAlign: 'center'
       }
@@ -214,31 +211,21 @@ const TicTacToe = () => {
       { 
         className: 'board',
         style: {
-          display: 'inline-block',
-          padding: 'min(1.5rem, 4vw)',
-          borderRadius: 'min(20px, 5vw)',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, minmax(clamp(80px, 20vw, 120px), 1fr))',
+          gridTemplateRows: 'repeat(3, minmax(clamp(80px, 20vw, 120px), 1fr))',
+          gap: 'clamp(4px, 1vw, 8px)',
+          padding: 'clamp(1rem, 3vw, 1.5rem)',
+          borderRadius: 'clamp(12px, 3vw, 20px)',
           backgroundColor: 'var(--surface)',
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
-          width: 'fit-content',
+          maxWidth: 'min(90vw, 400px)',
+          aspectRatio: '1',
           position: 'relative',
-          maxWidth: '95vw'
+          margin: '0 auto'
         }
       },
-      React.createElement(
-        'div',
-        { className: 'board-row' },
-        [0, 1, 2].map(renderSquare)
-      ),
-      React.createElement(
-        'div',
-        { className: 'board-row' },
-        [3, 4, 5].map(renderSquare)
-      ),
-      React.createElement(
-        'div',
-        { className: 'board-row' },
-        [6, 7, 8].map(renderSquare)
-      ),
+      board.map((_, index) => renderSquare(index)),
       (winner || board.every(Boolean)) && React.createElement(
         'div',
         {
@@ -257,16 +244,16 @@ const TicTacToe = () => {
             color: 'white',
             cursor: 'pointer',
             zIndex: 1001,
-            borderRadius: 'min(20px, 5vw)'
+            borderRadius: 'clamp(12px, 3vw, 20px)'
           }
         },
         React.createElement(
           'div',
           {
             style: {
-              fontSize: 'min(2.5rem, 8vw)',
+              fontSize: 'clamp(1.8rem, 6vw, 2.5rem)',
               fontWeight: 'bold',
-              marginBottom: 'min(1rem, 4vw)',
+              marginBottom: 'clamp(0.8rem, 3vw, 1rem)',
               textAlign: 'center',
               animation: showCelebration ? 'bounce 0.5s ease infinite' : 'none',
               '@keyframes bounce': {
@@ -281,7 +268,7 @@ const TicTacToe = () => {
           'div',
           {
             style: {
-              fontSize: 'min(1.2rem, 4vw)',
+              fontSize: 'clamp(1rem, 3vw, 1.2rem)',
               opacity: 0.8,
               textAlign: 'center'
             }
